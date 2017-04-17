@@ -17,9 +17,11 @@ public class RSA
 		*/
 		return new BigInteger(KEY_LENGTH_BITS, KEY_CERTANTY, random);
 	};
+	/**
+	 * Creates a public/private key pair from two prime numbers
+	 */
 	static public KeyPair generateKeys(BigInteger p, BigInteger q)
 	{
-	/*
 		//NOTE: Big integer math is ugly, but it's needed for large keys
 		//Mod value (n=p*q)
 		BigInteger n = p.multiply(q);
@@ -32,16 +34,39 @@ public class RSA
 		{
 			e = getRandomPrime();
 		}
-	*/
-		//Temp until implementet
-		return new KeyPair(getRandomPrime(), getRandomPrime());
+		// d * e mod phi = 1
+		// d = 1 * e^-1 mod phi
+		BigInteger d = e.modInverse(phi);
+		//TODO: assert(d * e mod phi == 1);
+
+		return new KeyPair(n, e, d);
 	};
-	static public String encrypt(String message, BigInteger key)
+	/**
+	 * Creates a public/private key pair from two random prime numbers.
+	 * Helper method.
+	 */
+	static public KeyPair generateKeys()
 	{
+		BigInteger p = getRandomPrime();
+		BigInteger q = getRandomPrime();
+		return generateKeys(p, q);
+	};
+	/**
+	 * Encrypt a message using a public key and a modulus
+	 */
+	static public String encrypt(String message, BigInteger e, BigInteger n)
+	{
+		//BigInteger m = new BigInteger(message.getBytes());
+		//return m.modPow(e, n).toString();
 		return new String("Encrypted message goes here");
 	};
-	static public String decrypt(String message, BigInteger key)
+	/**
+	 * Decrypt a message using a public key and a modulus
+	 */
+	static public String decrypt(String message, BigInteger d, BigInteger n)
 	{
+		//BigInteger m = new BigInteger(message.getBytes());
+		//return m.modPow(d, n).toString();
 		return new String("Decrypted message goes here");
 	};
 }
