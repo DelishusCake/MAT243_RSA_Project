@@ -1,16 +1,15 @@
 import java.math.*;
+import java.util.*;
 
 public class RSA
 {
-	static public final int KEY_LENGTH_BITS = 256;
+	static public final int KEY_LENGTH_BITS = 64;
 	static public final int KEY_CERTANTY = 0xDEADBEEF; //TODO: Actually find a good certanty value
 	/**
 	 * Generate a large random prime number
 	 */
 	static public BigInteger getRandomPrime()
-	{
-		//TODO: Seed this for testing so we get consistant values
-		Random random = new Random();
+	{		
 		/*
 		Use the built in prime generator.
 		Not particularly secure, but this is a school project, not the NSA.
@@ -53,20 +52,33 @@ public class RSA
 	};
 	/**
 	 * Encrypt a message using a public key and a modulus
+	 * @param	e 		The public key exponent
+	 * @param 	n		The public key modulus
 	 */
 	static public String encrypt(String message, BigInteger e, BigInteger n)
 	{
-		//BigInteger m = new BigInteger(message.getBytes());
-		//return m.modPow(e, n).toString();
-		return new String("Encrypted message goes here");
+		BigInteger m = new BigInteger(message.getBytes());
+		return m.modPow(e, n).toString();
+		//return new String("Encrypted message goes here");
 	};
 	/**
-	 * Decrypt a message using a public key and a modulus
+	 * Decrypt a message using a private key and a modulus
+	 * @param 	d		The private key exponent
+	 * @param 	n 		The public key modulus
 	 */
 	static public String decrypt(String message, BigInteger d, BigInteger n)
 	{
-		//BigInteger m = new BigInteger(message.getBytes());
-		//return m.modPow(d, n).toString();
-		return new String("Decrypted message goes here");
+		BigInteger m = new BigInteger(message.getBytes());
+		return m.modPow(d, n).toString();
+		//return new String("Decrypted message goes here");
 	};
+	/**
+	 * Random Number Generator used for prime generation
+	 */
+	static private Random random;
+	static
+	{
+		//TODO: Seed this for testing so we get consistant values
+		random = new Random();
+	}
 }
