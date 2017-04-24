@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Scanner;
 import java.math.BigInteger;
 
 
@@ -9,8 +10,9 @@ public class RsaED {
 			
 			char choice;
 			String line = new String();
-                        KeyPair keys = new KeyPair();
-                        String finals = new String();
+			String message = new String();
+            KeyPair keys = new KeyPair();
+            String finals = new String();
 			
 			try
 			{
@@ -18,6 +20,7 @@ public class RsaED {
 				printMenu(); //Display main menu
 		    	InputStreamReader isr = new InputStreamReader (System.in);
 		    	BufferedReader stdin = new BufferedReader (isr);
+				Scanner in = new Scanner(System.in);
 				do
 				{
 					line = stdin.readLine().trim();
@@ -32,13 +35,17 @@ public class RsaED {
 		        			case 'A': 
 		        					RSA encrypt = new RSA();	
                                                                 KeyPair key = encrypt.generateKeys();
-                                                                finals = RSA.encrypt("hello world", key.getPrivate(), key.getPublic());
-                                                                System.out.println(finals);
+																System.out.println("The generated public key is: " + key.getPublic);
+																System.out.println("The generated modulus is: " + key.getMod);
+																System.out.println("The generated private key is: " + key.getPrivate);
+																message = stdin.readLine();	//Get message from user
+                                                                finals = RSA.encrypt("hello world", key.getPublic(), key.getMod());
+                                                                System.out.println("your encrypted message is " + finals); //display encrypted message
                                                                 keys.setMod(key.getMod());
                                                                 keys.setPrivate(key.getPrivate());
                                                                 keys.setPublic(key.getPrivate());
                                                                 //Generate primes and encrypt a message
-		        					//Prime generation and encryption functionality to be added
+																//Prime generation and encryption functionality to be added
 		        				
 		        				break;
 		        		
@@ -49,8 +56,8 @@ public class RsaED {
                                                     System.out.println("Enter your public Key:");
                                                     line = stdin.readLine();
                                                     BigInteger publicKey = new BigInteger(line);
-                                                     System.out.println("Enter your private Key:");
-                                                      line = stdin.readLine();
+                                                    System.out.println("Enter your private Key:");
+                                                    line = stdin.readLine();
                                                     BigInteger privateKey = new BigInteger(line);
                                                     
                                                                 RSA mEncrypt = new RSA();	
@@ -67,8 +74,15 @@ public class RsaED {
 		        			case 'C': 
                                                                	
                                                     
-                                                               //KeyPair s = RSA.generateKeys();
-                                                                System.out.println(RSA.decrypt(finals, keys.getPrivate(), keys.getMod()));//Decrypt a message
+                                                    //KeyPair s = RSA.generateKeys();
+													System.out.println("Please enter your private key: ");
+													BigInteger priv = in.nextBigInteger();
+													System.out.println("Please enter your modulus: ");
+													BigInteger mod = in.nextBigInteger();
+													System.out.println("Please enter the message you wish to decrypt: ");
+													message = stdin.readLine(); //message input from user
+                                                    System.out.println(RSA.decrypt(finals, keys.getPrivate(), keys.getMod()));//Decrypt a message
+													//System.out.println(RSA.decrypt(message,priv,mod);//decrypt the users message
 		        			
 		        					//Decryption functionality be added
 		        				
