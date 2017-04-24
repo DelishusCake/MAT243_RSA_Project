@@ -35,9 +35,9 @@ public class RsaED {
 		        			case 'A': 
 		        					RSA encrypt = new RSA();	
                                                                 KeyPair key = encrypt.generateKeys();
-																System.out.println("The generated public key is: " + key.getPublic);
-																System.out.println("The generated modulus is: " + key.getMod);
-																System.out.println("The generated private key is: " + key.getPrivate);
+																System.out.println("The generated public key is: " + key.getPublic());
+																System.out.println("The generated modulus is: " + key.getMod());
+																System.out.println("The generated private key is: " + key.getPrivate());
 																message = stdin.readLine();	//Get message from user
                                                                 finals = RSA.encrypt("hello world", key.getPublic(), key.getMod());
                                                                 System.out.println("your encrypted message is " + finals); //display encrypted message
