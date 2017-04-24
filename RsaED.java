@@ -25,42 +25,45 @@ public class RsaED
 					switch(choice)
 					{			
 						case 'A': 
-						{
 							KeyPair key = RSA.generateKeys();
 							System.out.println("The generated public key is: " + key.getPublic());
 							System.out.println("The generated modulus is: " + key.getMod());
 							System.out.println("The generated private key is: " + key.getPrivate());
+                                                        System.out.println("Enter your message: ");
 							String message = stdin.readLine().trim();	//Get message from user
 							String finals = RSA.encrypt(message, key.getPublic(), key.getMod());
 							System.out.println("your encrypted message is " + finals); //display encrypted message
 							//Generate primes and encrypt a message
-						} break;
-						case 'B':
-						{
+                                                        printMenu();
+						break;
+						case 'B':		
 							System.out.println("Enter your public Key:");
 							BigInteger publicKey = in.nextBigInteger();
 							System.out.println("Enter your private Key:");
 							BigInteger privateKey = in.nextBigInteger();
 							System.out.println("Enter the modulus:");
 							BigInteger modulus = in.nextBigInteger();
-							
+							System.out.println("Enter your message: ");
+                                                        String message2 = stdin.readLine().trim();
 							KeyPair mKey = new KeyPair(publicKey, privateKey, modulus);
-							System.out.println(RSA.encrypt("hello world", mKey.getPrivate(), mKey.getPublic()));
-						   
+							String finals2 = RSA.encrypt(message2, mKey.getPrivate(), mKey.getPublic());
+                                                        System.out.println("your encrypted message is " + finals2);
+                                                        printMenu();
 							//Manually enter primes and encrypt a message
 							//encryption functionality 
-						} break;
+							break;
 						case 'C': 
-						{
 							System.out.println("Please enter your private key: ");
 							BigInteger priv = in.nextBigInteger();
 							System.out.println("Please enter your modulus: ");
 							BigInteger mod = in.nextBigInteger();
 							System.out.println("Please enter the message you wish to decrypt: ");
-							String message = stdin.readLine().trim(); //message input from user
+							message = stdin.readLine().trim(); //message input from user
+                                                        System.out.println("Decrypted Message: ");
 							System.out.println(RSA.decrypt(message, priv, mod));//Decrypt a message
 							//System.out.println(RSA.decrypt(message,priv,mod);//decrypt the users message
-						} break;
+                                                        printMenu();
+							break;
 						case 'Q': //Stop the loop and quit
 							break;	
 					}
@@ -74,7 +77,7 @@ public class RsaED
 	}
 	public static void printMenu()
 	{
-		System.out.println("\n\n\n");
+		          System.out.println("\n");
 		System.out.print("RSA Encrypt Decrypt\n"+
 						 "-----------------------\n"+
 						 "Please choose an option\n"+
