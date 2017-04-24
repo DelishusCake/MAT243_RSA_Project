@@ -4,8 +4,10 @@ import java.security.*;
 
 public class RSA
 {
+	//The size of the keys in bits
 	static public final int KEY_LENGTH_BITS = 256;
-	static public final int KEY_CERTANTY = 0x64; //TODO: Actually find a good certanty value
+	//The certainty of generating a prime (0x0 - 0xFFFFFFFF)
+	static public final int KEY_CERTAINTY = 0x64;
 	/**
 	 * Creates a public/private key pair from two prime numbers
 	 */
@@ -18,7 +20,7 @@ public class RSA
 		BigInteger phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
 		//Public key exponent (1 < e < phi)
 		BigInteger e;
-		//All primes are coprime to each other, so just get a prime thats less than phi
+		//Create a public key exponent (1 < e < phi, e is coprime with phi)
 		do
 		{
 			e = new BigInteger(phi.bitLength(), random);
@@ -26,7 +28,6 @@ public class RSA
 		// d * e mod phi = 1
 		// d = 1 * e^-1 mod phi
 		BigInteger d = e.modInverse(phi);
-		//TODO: assert(d * e mod phi == 1);
 		return new KeyPair(n, e, d);
 	};
 	/**
@@ -35,8 +36,10 @@ public class RSA
 	 */
 	static public KeyPair generateKeys()
 	{
-		BigInteger p = new BigInteger(KEY_LENGTH_BITS / 2, KEY_CERTANTY, random);
-		BigInteger q = new BigInteger(KEY_LENGTH_BITS / 2, KEY_CERTANTY, random);
+		//Generate two primes of half the key length
+		BigInteger p = new BigInteger(KEY_LENGTH_BITS / 2, KEY_CERTAINTY, random);
+		BigInteger q = new BigInteger(KEY_LENGTH_BITS / 2, KEY_CERTAINTY, random);
+		//Generate an immutable key pair from the primes
 		return generateKeys(p, q);
 	};
 	/**
@@ -46,7 +49,9 @@ public class RSA
 	 */
 	static public String encrypt(String message, BigInteger e, BigInteger n) 
 	{
+		//Transform the message to a BigInteger
 		BigInteger m = new BigInteger(message.getBytes());
+		// encrypted_message = m^e mod n
 		return m.modPow(e, n).toString();
 	};
 	/**
@@ -56,7 +61,9 @@ public class RSA
 	 */
 	static public String decrypt(String message, BigInteger d, BigInteger n)
 	{
+		//Transform the encrypted message into a big integer
 		BigInteger m = new BigInteger(message);
+		// message = encrypted_message^d mod n
 		return new String(m.modPow(d, n).toByteArray());
 	};
 	/**
@@ -65,7 +72,6 @@ public class RSA
 	static private Random random;
 	static
 	{
-		//TODO: Seed this for testing so we get consistant values
 		random = new SecureRandom();
 	}
 }
