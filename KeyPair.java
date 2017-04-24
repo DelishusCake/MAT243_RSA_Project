@@ -11,7 +11,6 @@ class KeyPair
 		this.publicKey = e;
 		this.privateKey = d;
 	}
-        public KeyPair(){};
 	/**
 	 * Get the Modulus portion of the public key
 	 */
@@ -25,16 +24,11 @@ class KeyPair
 	 */
 	public BigInteger getPrivate() { return privateKey; }
 
-        public void setMod(BigInteger n)     { this.modKey = n; }
 	/**
-	 * Get the exponent portion of the public key
+	 * Create a copy of the immutable keypair
 	 */
-	public void setPublic(BigInteger e)  { this.publicKey = e; }
-        
-	/**
-	 * Get the exponent portion of the private key
-	 */
-	public void setPrivate(BigInteger d) { this.privateKey = d; }
+	public KeyPair copy() { return new KeyPair(modKey, publicKey, privateKey); }
+
 	private BigInteger modKey;
 	private BigInteger publicKey;
 	private BigInteger privateKey;

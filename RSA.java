@@ -1,5 +1,3 @@
-
-import java.io.UnsupportedEncodingException;
 import java.math.*;
 import java.util.*;
 
@@ -16,7 +14,7 @@ public class RSA
 		//Mod value (n=p*q)
 		BigInteger n = p.multiply(q);
 		//Totient value (phi=(p-1)(q-1))
-		BigInteger phi = p.subtract(BigInteger.ONE).multiply(p.subtract(BigInteger.ONE));
+		BigInteger phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
 		//Public key exponent (1 < e < phi)
 		BigInteger e;
 		//All primes are coprime to each other, so just get a prime thats less than phi
@@ -45,51 +43,20 @@ public class RSA
 	 * @param	e 		The public key exponent
 	 * @param 	n		The public key modulus
 	 */
-	static public String encrypt(String message, BigInteger e, BigInteger n) throws UnsupportedEncodingException
+	static public String encrypt(String message, BigInteger e, BigInteger n) 
 	{
-            String finals = "";
-            BigInteger m = new BigInteger(message.getBytes("US-ASCII"));
-              // byte[] b = new byte[10];
-              //  byte[] a = message.getBytes();
-              // BigInteger temp = new BigInteger(a);
-             //  for(int i = 0; i < a.length; i++){
-              //     for(int j = 0; j < 4; j++){
-               //       if(4*i+j < a.length){
-               //     b[j] = a[4*i+j];
-                //      }
-               //     }
-              
-               //    BigInteger temp = new BigInteger(b);
-		finals = m.modPow(e, n).toString();
-                 
-            
-                //}
-                return finals;
-		//return new String("Encrypted message goes here");
+		BigInteger m = new BigInteger(message.getBytes());
+		return m.modPow(e, n).toString();
 	};
 	/**
 	 * Decrypt a message using a private key and a modulus
 	 * @param 	d		The private key exponent
 	 * @param 	n 		The public key modulus
 	 */
-	static public String decrypt(String message, BigInteger d, BigInteger n) throws UnsupportedEncodingException
+	static public String decrypt(String message, BigInteger d, BigInteger n)
 	{
-            
-            String finals = "";
-             
-		BigInteger m = new BigInteger(message.getBytes("US-ASCII"));
-           
-               
-               m = m.modPow(d, n);
-              byte[] byt =  m.toByteArray();
-              char[] cha = new char[byt.length];
-              for(int i =0; i < byt.length; i++){
-               
-              cha[i] = (char) byt[i];
-              finals+= cha[i];
-                 
-              }
-		return finals;
+		BigInteger m = new BigInteger(message);
+		return new String(m.modPow(d, n).toByteArray());
 	};
 	/**
 	 * Random Number Generator used for prime generation
