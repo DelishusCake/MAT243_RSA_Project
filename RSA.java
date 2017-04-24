@@ -1,5 +1,6 @@
 import java.math.*;
 import java.util.*;
+import java.security.*;
 
 public class RSA
 {
@@ -65,6 +66,6 @@ public class RSA
 	static
 	{
 		//TODO: Seed this for testing so we get consistant values
-		random = new Random();
+		random = new SecureRandom();
 	}
 }
